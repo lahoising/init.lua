@@ -13,6 +13,16 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
+	{ 
+		'nvim-telescope/telescope-fzf-native.nvim', 
+		name = 'telescope-fzf-native.nvim',
+		build = 'make',
+	},
+	{ 
+		'nvim-telescope/telescope.nvim', 
+		branch = '0.1.x', 
+		dependencies = { 'nvim-lua/plenary.nvim', 'telescope-fzf-native.nvim' } 
+	},
 }
 
 require("lazy").setup(plugins)
