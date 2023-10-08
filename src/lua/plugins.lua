@@ -75,6 +75,11 @@ local plugins = {
 		'saadparwaiz1/cmp_luasnip',
 	},
 
+  -- linter
+  {
+    'mfussenegger/nvim-lint',
+  },
+
   -- terminal
   {
     'akinsho/toggleterm.nvim',
