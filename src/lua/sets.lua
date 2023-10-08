@@ -9,6 +9,7 @@ vim.opt.incsearch = true
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.shiftwidth = 2
+vim.opt.termguicolors = true
 
 vim.keymap.set("n", "<Space>", "<Nop>")
 vim.g.mapleader = " "

@@ -13,6 +13,17 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
+	-- theme
+	{
+		"ayu-theme/ayu-vim",
+	},
+
+	-- icons
+	{
+		"nvim-tree/nvim-web-devicons",
+		config = true,
+	},
+
 	-- fuzzy finder
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
@@ -89,6 +100,14 @@ local plugins = {
 	{
 		"akinsho/toggleterm.nvim",
 		tags = "v2.8.*",
+	},
+
+	-- git
+	{
+		"airblade/vim-gitgutter",
+	},
+	{
+		"sindrets/diffview.nvim",
 	},
 }
 
