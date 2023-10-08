@@ -45,8 +45,35 @@ local plugins = {
 	-- java specific lsp
 	{
 		'mfussenegger/nvim-jdtls',
-		tags = '0.2.0'
-	}
+		tags = '0.2.0',
+	},
+
+	-- autocomplete
+	{
+		'hrsh7th/cmp-nvim-lsp',
+	},
+	{
+		'hrsh7th/cmp-buffer',
+	},
+	{
+		'hrsh7th/cmp-path',
+	},
+	{
+		'hrsh7th/cmp-cmdline',
+	},
+	{
+		'hrsh7th/nvim-cmp',
+		tags = 'v0.0.1',
+	},
+
+	-- snippets
+	{
+		'L3MON4D3/LuaSnip',
+		tags = 'v2.*',
+	},
+	{
+		'saadparwaiz1/cmp_luasnip',
+	},
 }
 
 require("lazy").setup(plugins)
