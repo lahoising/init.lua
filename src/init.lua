@@ -1,6 +1,7 @@
 require('sets')
 require('file-explorer')
 require('plugins')
+require('terminal')
 require('search')
 require('tools-manager')
 require('lsp')

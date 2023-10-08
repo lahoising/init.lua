@@ -74,6 +74,12 @@ local plugins = {
 	{
 		'saadparwaiz1/cmp_luasnip',
 	},
+
+  -- terminal
+  {
+    'akinsho/toggleterm.nvim',
+    tags = 'v2.8.*',
+  },
 }
 
 require("lazy").setup(plugins)
