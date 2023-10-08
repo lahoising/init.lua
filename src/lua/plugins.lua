@@ -13,6 +13,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
+	-- fuzzy finder
 	{ 
 		'nvim-telescope/telescope-fzf-native.nvim', 
 		name = 'telescope-fzf-native.nvim',
@@ -26,6 +27,26 @@ local plugins = {
 			'telescope-fzf-native.nvim',
 		} 
 	},
+
+	-- lsp
+	{
+		'williamboman/mason.nvim',
+		tags = 'v1.8.0',
+	},
+	{
+		'williamboman/mason-lspconfig.nvim',
+		tags = 'v1.17.1',
+	},
+	{
+		'neovim/nvim-lspconfig',
+		tags = 'v0.1.6',
+	},
+
+	-- java specific lsp
+	{
+		'mfussenegger/nvim-jdtls',
+		tags = '0.2.0'
+	}
 }
 
 require("lazy").setup(plugins)
