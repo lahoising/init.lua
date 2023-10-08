@@ -4,17 +4,17 @@ M.tools_by_language = {
 	lua = {
 		lsp = { name = 'lua_ls' },
 		linter = { name = 'luacheck' },
-		formatter = { name = '' },
+		formatter = { name = 'stylua' },
 	},
 	cpp = {
 		lsp = { name = 'clangd' },
 		linter = { name = 'cpplint' },
-		formatter = { name = '' },
+		formatter = { name = 'clangformat', mason_name = 'clang-format' },
 	},
 	java = {
 		lsp = { name = 'jdtls' },
 		linter = { name = 'checkstyle' },
-		formatter = { name = '' },
+		formatter = { name = 'clangformat', mason_name = 'clang-format' },
 	},
 	rust = {
 		lsp = { name = 'rust_analyzer' },
