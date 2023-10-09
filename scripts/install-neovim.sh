@@ -16,4 +16,4 @@ mkdir -p $INSTALL_DIR
 mv nvim-linux64 $INSTALL_LOCATION
 popd
 
-sudo ln -f -T $INSTALL_LOCATION/bin/nvim /usr/local/bin/nvim
+sudo ln -fs -T $INSTALL_LOCATION/bin/nvim /usr/local/bin/nvim
