@@ -24,6 +24,9 @@ install_tar() {
   popd
 }
 
+# ===== INSTALL REQUIREMENTS =====
+sudo apt -y install cmake git curl wget unzip tar gzip build-essential libreadline-dev
+
 # ===== PACKAGE MANAEGERS =====
 
 # install rust/cargo
@@ -56,5 +59,4 @@ install_luarocks() {
 install_tar "$LUAROCKS_URL" "$LUAROCKS_TAR_DEST" 'install_luarocks'
 
 # ===== TOOLS ====
-sudo apt -y install cmake git curl wget unzip tar gzip build-essential libreadline-dev
 cargo install ripgrep
