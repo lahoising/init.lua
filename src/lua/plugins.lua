@@ -96,6 +96,13 @@ local plugins = {
 		"mhartington/formatter.nvim",
 	},
 
+	-- syntax highlighting
+	{
+		"nvim-treesitter/nvim-treesitter",
+		tags = "v0.9.1",
+		build = ":TSUpdate",
+	},
+
 	-- terminal
 	{
 		"akinsho/toggleterm.nvim",
