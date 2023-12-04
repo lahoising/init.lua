@@ -8,12 +8,19 @@ INSTALL_LOCATION=$INSTALL_DIR/nvim
 yes | rm -rf $DOWNLOAD_DIR
 mkdir -p $DOWNLOAD_DIR
 
-curl -L https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz -o $DOWNLOAD_LOCATION
+OS_NAME=$(uname)
+if [[ $OS_NAME == 'Darwin' ]]; then
+  ARCHIVE_NAME=nvim-macos.tar.gz
+else
+  ARCHIVE_NAME=nvim-linux64.tar.gz
+fi
+
+curl -L https://github.com/neovim/neovim/releases/latest/download/$ARCHIVE_NAME -o $DOWNLOAD_LOCATION
 pushd $DOWNLOAD_DIR
 tar -xzvf $DOWNLOAD_LOCATION
 yes | rm -rf $INSTALL_LOCATION
 mkdir -p $INSTALL_DIR
-mv nvim-linux64 $INSTALL_LOCATION
+mv $(basename $ARCHIVE_NAME .tar.gz) $INSTALL_LOCATION
 popd
 
-sudo ln -fs -T $INSTALL_LOCATION/bin/nvim /usr/local/bin/nvim
+sudo ln -fs $INSTALL_LOCATION/bin/nvim /usr/local/bin/nvim
