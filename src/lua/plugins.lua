@@ -1,3 +1,5 @@
+local os_utils = require('os-utils')
+
 -- bootstrap lazy.nvim - the plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -40,14 +42,6 @@ local plugins = {
 	},
 
 	-- lsp
-	{
-		"williamboman/mason.nvim",
-		tags = "v1.8.0",
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		tags = "v1.17.1",
-	},
 	{
 		"neovim/nvim-lspconfig",
 		tags = "v0.1.6",
@@ -117,5 +111,24 @@ local plugins = {
 		"sindrets/diffview.nvim",
 	},
 }
+
+-- conditionally installed plugins. Some of these don't work well with NixOS.
+if not os_utils.is_nixos() then
+  local extra_plugins = {
+    -- lsp installer/manager
+    {
+      "williamboman/mason.nvim",
+      tags = "v1.8.0",
+    },
+    {
+      "williamboman/mason-lspconfig.nvim",
+      tags = "v1.17.1",
+    },
+  }
+
+  for plugin in ipairs(extra_plugins) do
+    table.insert(plugins, plugin)
+  end
+end
 
 require("lazy").setup(plugins)

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 DOWNLOAD_DIR=/tmp/nvim
 DOWNLOAD_LOCATION=$DOWNLOAD_DIR/nvim.tar.gz

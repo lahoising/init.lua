@@ -1,6 +1,5 @@
 local lint = require("lint")
 local language_tools = require("language-tools")
-local mregistry = require("mason-registry")
 
 local linters_by_ft = {}
 for language, config in pairs(language_tools.tools_by_language) do

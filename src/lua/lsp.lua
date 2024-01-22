@@ -1,9 +1,11 @@
 local tools = require("language-tools")
 local lspconfig = require("lspconfig")
-local mason_lspconfig = require("mason-lspconfig")
 local cmp = require("cmp")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local luasnip = require("luasnip")
+local os_utils = require("os-utils")
+
+local mason_lspconfig = os_utils.is_nixos or require("mason-lspconfig")
 
 local lsps = {}
 
@@ -11,9 +13,11 @@ for _, tools_map in pairs(tools.tools_by_language) do
 	table.insert(lsps, tools_map.lsp.name)
 end
 
-mason_lspconfig.setup({
-	automatic_installation = true,
-})
+if not os_utils.is_nixos() then
+	mason_lspconfig.setup({
+		automatic_installation = true,
+	})
+end
 
 local language_specific_configs_path = "language-specific."
 local language_specific_configs = {

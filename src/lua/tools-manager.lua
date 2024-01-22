@@ -2,6 +2,9 @@
 -- The tools are installed in their respective tooling files,
 -- e.g. LSPs are installed in lsp.lua
 
+local os_utils = require('os-utils')
+if os_utils.is_nixos() then return end
+
 local mason = require("mason")
 local mregistry = require("mason-registry")
 local language_tools = require("language-tools")
