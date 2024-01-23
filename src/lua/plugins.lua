@@ -126,7 +126,7 @@ if not os_utils.is_nixos() then
     },
   }
 
-  for plugin in ipairs(extra_plugins) do
+  for _, plugin in ipairs(extra_plugins) do
     table.insert(plugins, plugin)
   end
 end
