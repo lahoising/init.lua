@@ -44,13 +44,13 @@ local plugins = {
 	-- lsp
 	{
 		"neovim/nvim-lspconfig",
-		tags = "v0.1.6",
+    tag = "v0.1.7",
 	},
 
 	-- java specific lsp
 	{
 		"mfussenegger/nvim-jdtls",
-		tags = "0.2.0",
+    tag = "0.2.0",
 	},
 
 	-- autocomplete
@@ -68,13 +68,13 @@ local plugins = {
 	},
 	{
 		"hrsh7th/nvim-cmp",
-		tags = "v0.0.1",
+    tag = "v0.0.1",
 	},
 
 	-- snippets
 	{
 		"L3MON4D3/LuaSnip",
-		tags = "v2.*",
+    tag = "v2.2.0",
 	},
 	{
 		"saadparwaiz1/cmp_luasnip",
@@ -96,14 +96,14 @@ local plugins = {
 	-- syntax highlighting
 	{
 		"nvim-treesitter/nvim-treesitter",
-		tags = "v0.9.1",
+    tag = "v0.9.1",
 		build = ":TSUpdate",
 	},
 
 	-- terminal
 	{
 		"akinsho/toggleterm.nvim",
-		tags = "v2.8.*",
+    tag = "v2.9.0",
 	},
 
 	-- git
@@ -121,11 +121,11 @@ if not os_utils.is_nixos() then
     -- lsp installer/manager
     {
       "williamboman/mason.nvim",
-      tags = "v1.8.0",
+      tag = "v1.8.0",
     },
     {
       "williamboman/mason-lspconfig.nvim",
-      tags = "v1.17.1",
+      tag = "v1.17.1",
     },
   }
 
