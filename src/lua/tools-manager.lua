@@ -15,8 +15,7 @@ local auto_install_tool_type = { linter = true, formatter = true }
 local tools_by_ft = language_tools.tools_by_language
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(event)
-		local client = vim.lsp.get_client_by_id(event.data.client_id)
-		local filetypes = client.config.filetypes
+    local filetypes = { vim.bo[event.buf].filetype }
 		for _, ft in ipairs(filetypes) do
 			local tools_for_ft = tools_by_ft[ft]
 			if tools_for_ft ~= nil then

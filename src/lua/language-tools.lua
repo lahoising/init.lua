@@ -12,7 +12,7 @@ M.tools_by_language = {
 		formatter = { name = "clangformat", mason_name = "clang-format" },
 	},
 	java = {
-		lsp = { name = "jdtls" },
+    lsp = {},
 		linter = { name = "checkstyle" },
 		formatter = { name = "clangformat", mason_name = "clang-format" },
 	},

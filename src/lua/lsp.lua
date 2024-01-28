@@ -24,9 +24,10 @@ end
 
 local language_specific_configs_path = "language-specific."
 local language_specific_configs = {
-	java = {
-		on_attach = require(language_specific_configs_path .. "java").on_lsp_attach,
-	},
+  -- example
+  -- java = {
+  -- 	on_attach = require(language_specific_configs_path .. "java").on_lsp_attach,
+  -- },
 }
 
 cmp.setup({
@@ -75,8 +76,18 @@ for _, lsp in ipairs(lsps) do
 	})
 end
 
+local userLspConfigGroup = vim.api.nvim_create_augroup("UserLspConfig", {})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = userLspConfigGroup,
+  callback = function(event)
+    if vim.bo[event.buf].filetype == 'java' then
+      require("language-specific.java").on_java_file_read()
+    end
+  end,
+})
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+  group = userLspConfigGroup,
 	callback = function(event)
 		local bufnr = event.buf
 		local opts = { buffer = bufnr }
@@ -86,8 +97,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 		vim.keymap.set("n", "<leader>ge", vim.diagnostic.open_float, opts)
 
-		local client = vim.lsp.get_client_by_id(event.data.client_id)
-		local filetypes = client.config.filetypes
+    local filetypes = { vim.bo[event.buf].filetype }
 		for _, ft in ipairs(filetypes) do
 			local language_config = language_specific_configs[ft]
 			if language_config ~= nil and language_config.on_attach ~= nil then
