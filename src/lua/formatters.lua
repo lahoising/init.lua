@@ -20,16 +20,23 @@ formatter_plug.setup({
 	filetype = formatters_by_ft,
 })
 
+local function format(bufnr)
+  for _, client in ipairs(vim.lsp.get_active_clients({ bufnr = bufnr })) do
+    lsp_format_modifications.format_modifications(client, bufnr, {
+      callback = function(_, _, range)
+        formatter.format({}, {}, range["start"], range["end"], {})
+      end,
+    })
+  end
+end
+
+vim.keymap.set("n", "<leader>f", function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  format(bufnr)
+end)
 vim.api.nvim_create_autocmd("BufWrite", {
 	group = vim.api.nvim_create_augroup("UserFormatAutogroup", {}),
   callback = function(event)
-    for _, client in ipairs(vim.lsp.get_active_clients({ bufnr = event.buf })) do
-      lsp_format_modifications
-          .format_modifications(client, event.buf, {
-            callback = function(_, _, range)
-              formatter.format({}, {}, range["start"], range["end"], {})
-            end
-          })
-    end
+    format(event.buf)
   end,
 })
