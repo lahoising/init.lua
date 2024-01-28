@@ -5,7 +5,10 @@ local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local luasnip = require("luasnip")
 local os_utils = require("os-utils")
 
-local mason_lspconfig = os_utils.is_nixos and nil or require("mason-lspconfig")
+local mason_lspconfig = nil
+if not os_utils.is_nixos() then
+  mason_lspconfig = require("mason-lspconfig")
+end
 
 local lsps = {}
 
