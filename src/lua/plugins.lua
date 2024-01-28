@@ -89,6 +89,9 @@ local plugins = {
 	{
 		"mhartington/formatter.nvim",
 	},
+  {
+    "joechrisellis/lsp-format-modifications.nvim"
+  },
 
 	-- syntax highlighting
 	{
