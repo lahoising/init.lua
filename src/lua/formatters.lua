@@ -8,7 +8,13 @@ local formatters_by_ft = {}
 for ft, config in pairs(language_tools.tools_by_language) do
 	local tool = config.formatter
   if tool.name ~= nil and tool.name ~= "" then
-    formatters_by_ft[ft] = { require("formatter.filetypes." .. ft)[tool.name] }
+    formatters_by_ft[ft] = function()
+      local baseConfig = require("formatter.filetypes." .. ft)[tool.name]()
+      if ft == 'java' then
+        baseConfig.args = { "-style='{BasedOnStyle: Google, IndentWidth: 4}'", "--assume-filename=.java" }
+      end
+      return baseConfig
+    end
   end
 end
 
