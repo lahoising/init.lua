@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 FONT_URL='https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CodeNewRoman.zip'
-DESTINATION="/tmp/$HOME/.local/share/fonts"
+DESTINATION="$HOME/.local/share/fonts"
 TEMP_ZIP='/tmp/nerd_font.zip'
 EXCLUDED_FILES='license.txt README.md'
 
