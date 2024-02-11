@@ -39,5 +39,9 @@ return {
   {
     "xiyaowong/transparent.nvim",
     opts = {},
+    dependencies = {
+      -- only set transparent after terminal is loaded, so that the terminal is shaded
+      "akinsho/toggleterm.nvim"
+    },
   }
 }
