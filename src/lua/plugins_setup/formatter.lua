@@ -68,6 +68,13 @@ return {
 
 		local specs_by_language = get_filetypes_and_formatters_per_language()
 		local formatters_by_filetype = get_formatter_by_filetype(specs_by_language)
+
+		local java_formatter_config = require("formatter.filetypes.java").clangformat()
+		java_formatter_config.args = { "-style='{BasedOnStyle: Google, IndentWidth: 4}'", "--assume-filename=.java" }
+		formatters_by_filetype["java"] = function()
+			return java_formatter_config
+		end
+
 		formatters_by_filetype["*"] = {
 			require("formatter.filetypes.any").remove_trailing_whitespace,
 		}
