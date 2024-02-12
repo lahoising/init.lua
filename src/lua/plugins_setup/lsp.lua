@@ -18,6 +18,56 @@ return {
 					})
 				end,
 			})
+
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(event)
+					local opts = { buffer = event.buf }
+					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+					vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+					vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
+					vim.keymap.set("n", "<leader>ge", vim.diagnostic.open_float, opts)
+				end,
+			})
+		end,
+	},
+	{
+		"mfussenegger/nvim-jdtls",
+		dependencies = {
+			"williamboman/mason.nvim",
+		},
+		config = function()
+			local mason_registry = require("mason-registry")
+			local jdtls = require("jdtls")
+			local jdtls_server_name = "jdtls"
+
+			if mason_registry.is_installed(jdtls_server_name) then
+				local jdtls_package = mason_registry.get_package(jdtls_server_name)
+				local jdtls_path = vim.fs.find("jdtls", { path = jdtls_package:get_install_path() })
+
+				vim.api.nvim_create_autocmd("FileType", {
+					callback = function(event)
+						local bufnr = event.buf
+						if vim.bo[bufnr].filetype == "java" then
+							jdtls.start_or_attach({
+								cmd = { jdtls_path },
+								root_dir = vim.fs.dirname(
+									vim.fs.find({ "gradlew", ".git", "mvnw", "build.xml" }, { updward = true })[1]
+								),
+							})
+						end
+					end,
+				})
+			end
+
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(event)
+					local bufnr = event.buf
+					local ft = vim.bo[bufnr].filetype
+					if ft == "java" then
+						vim.keymap.set("n", "<leader>fi", jdtls.organize_imports, { buffer = bufnr })
+					end
+				end,
+			})
 		end,
 	},
 }

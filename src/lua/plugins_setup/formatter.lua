@@ -15,6 +15,10 @@ return {
 		local mason_lspconfig_mappings = require("mason-lspconfig").get_mappings().mason_to_lspconfig
 		local lspconfig = require("lspconfig")
 
+		local formatter_overrides = {
+			["clang-format"] = "clangformat",
+		}
+
 		local function get_filetypes_and_formatters_per_language()
 			local specs_by_language = {}
 			for _, package_name in ipairs(mason_registry.get_installed_package_names()) do
@@ -25,7 +29,11 @@ return {
 							if specs_by_language[lang] == nil then
 								specs_by_language[lang] = {}
 							end
-							specs_by_language[lang]["formatter"] = package_name
+							local formatter_name = package_name
+							if formatter_overrides[package_name] ~= nil then
+								formatter_name = formatter_overrides[package_name]
+							end
+							specs_by_language[lang]["formatter"] = formatter_name
 						elseif category == "LSP" then
 							if specs_by_language[lang] == nil then
 								specs_by_language[lang] = {}
@@ -41,14 +49,16 @@ return {
 		end
 
 		local function get_formatter_by_filetype(specs_by_language)
+			local preconfigured_formatters_by_filetypes = require("formatter.filetypes")
 			local formatters_by_filetype = {}
 			for _, specs in pairs(specs_by_language) do
 				if specs["filetypes"] ~= nil and specs["formatter"] ~= nil then
 					for _, ft in ipairs(specs["filetypes"]) do
 						if ft ~= nil and specs["formatter"] ~= nil then
-							local formatter_specs =
-								require(string.format("formatter.filetypes.%s", ft))[specs["formatter"]]
-							formatters_by_filetype[ft] = formatter_specs
+							if preconfigured_formatters_by_filetypes[ft] ~= nil then
+								local formatter_specs = preconfigured_formatters_by_filetypes[ft][specs["formatter"]]
+								formatters_by_filetype[ft] = formatter_specs
+							end
 						end
 					end
 				end
