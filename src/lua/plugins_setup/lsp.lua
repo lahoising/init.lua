@@ -13,6 +13,10 @@ return {
 
 			mason_lspconfig.setup_handlers({
 				function(server_name)
+					if server_name == "jdtls" then
+						-- JDTLS will be setup with a language specific lsp
+						return
+					end
 					lspconfig[server_name].setup({
 						capabilities = capabilities,
 					})
@@ -38,6 +42,7 @@ return {
 		config = function()
 			local mason_registry = require("mason-registry")
 			local jdtls = require("jdtls")
+			local jdtls_setup = require("jdtls.setup")
 			local jdtls_server_name = "jdtls"
 
 			if mason_registry.is_installed(jdtls_server_name) then
@@ -48,11 +53,10 @@ return {
 					callback = function(event)
 						local bufnr = event.buf
 						if vim.bo[bufnr].filetype == "java" then
+							local root_dir = jdtls_setup.find_root({ "gradlew", ".git", "mvnw", "build.xml" })
 							jdtls.start_or_attach({
-								cmd = { jdtls_path },
-								root_dir = vim.fs.dirname(
-									vim.fs.find({ "gradlew", ".git", "mvnw", "build.xml" }, { updward = true })[1]
-								),
+								cmd = jdtls_path,
+								root_dir = root_dir,
 							})
 						end
 					end,
