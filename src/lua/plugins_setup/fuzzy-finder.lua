@@ -2,6 +2,17 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
+		config = function()
+			print("config treesitter")
+			local treesitter = require("nvim-treesitter.configs")
+			treesitter.setup({
+				auto_install = true,
+				highlight = {
+					enable = true,
+					additional_vim_regex_highlighting = false,
+				},
+			})
+		end,
 	},
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
@@ -12,6 +23,7 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-fzf-native.nvim",
+			"nvim-treesitter/nvim-treesitter",
 		},
 		branch = "0.1.x",
 		config = function(opts)
