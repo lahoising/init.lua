@@ -48,7 +48,7 @@ return {
 			vim.keymap.set("n", "gd", builtin.lsp_definitions)
 			vim.keymap.set("n", "gf", builtin.lsp_document_symbols)
 
-			vim.keymap.set("n", "<leader>gd", builtin.git_status)
+			vim.keymap.set("n", "<leader>gs", builtin.git_status)
 
 			vim.keymap.set("n", "<leader>h", builtin.command_history)
 			vim.keymap.set("n", "<leader>ss", builtin.spell_suggest)
