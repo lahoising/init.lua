@@ -14,6 +14,8 @@ return {
 		local formatter = require("formatter")
 		local mason_lspconfig_mappings = require("mason-lspconfig").get_mappings().mason_to_lspconfig
 		local lspconfig = require("lspconfig")
+    local cache = require("cache")
+    local format_on_save_attribute_name = 'format_on_save'
 
 		local formatter_overrides = {
 			["clang-format"] = "clangformat",
@@ -83,6 +85,9 @@ return {
 			filetype = formatters_by_filetype,
 		})
 
+    local cache_data = cache.read()
+    vim.g.format_on_save = cache_data[format_on_save_attribute_name] == "true"
+
 		vim.api.nvim_create_autocmd({ "LspAttach" }, {
 			callback = function(event)
 				local bufnr = event.buf
@@ -104,8 +109,38 @@ return {
 					end
 					vim.keymap.set("n", "<leader>ff", format, { buffer = bufnr })
 					vim.keymap.set("n", "<leader>fa", "<Cmd>Format<CR>", { buffer = bufnr })
+
+          vim.api.nvim_create_autocmd({ "BufWrite" }, {
+            callback = function(write_event)
+              if write_event.buf == bufnr and vim.g.format_on_save then
+                format()
+              end
+            end
+          })
 				end
 			end,
 		})
+
+    vim.api.nvim_create_user_command(
+      'FormatOnSaveEnable',
+      function()
+        vim.g.format_on_save = true
+        local cache_data = cache.read()
+        cache_data[format_on_save_attribute_name] = "true"
+        cache.write(cache_data)
+      end,
+      {}
+    )
+
+    vim.api.nvim_create_user_command(
+      'FormatOnSaveDisable',
+      function()
+        vim.g.format_on_save = false
+        local cache_data = cache.read()
+        cache_data[format_on_save_attribute_name] = "false"
+        cache.write(cache_data)
+      end,
+      {}
+    )
 	end,
 }
