@@ -43,6 +43,7 @@ return {
 			vim.keymap.set("n", "<leader>/b", builtin.buffers)
 			vim.keymap.set("n", "<leader>//", builtin.live_grep)
 			vim.keymap.set("n", "<leader>/m", builtin.keymaps)
+      vim.keymap.set("n", "<leader>/d", builtin.diagnostics)
 
 			vim.keymap.set("n", "gr", builtin.lsp_references)
 			vim.keymap.set("n", "gd", builtin.lsp_definitions)
