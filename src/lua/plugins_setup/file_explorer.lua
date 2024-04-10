@@ -11,7 +11,13 @@ return {
 			vim.g.loaded_netrw = 1
 			vim.g.loaded_netrwPlugin = 1
 
-			nvim_tree.setup({})
+			nvim_tree.setup({
+				actions = {
+					open_file = {
+						quit_on_open = true,
+					},
+				},
+			})
 
 			vim.keymap.set("n", "<leader>e", "<Cmd>NvimTreeToggle<CR>", {})
 		end,
