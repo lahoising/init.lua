@@ -43,13 +43,23 @@ return {
 			vim.keymap.set("n", "<leader>/b", builtin.buffers)
 			vim.keymap.set("n", "<leader>//", builtin.live_grep)
 			vim.keymap.set("n", "<leader>/m", builtin.keymaps)
-      vim.keymap.set("n", "<leader>/d", builtin.diagnostics)
+			vim.keymap.set("n", "<leader>/d", builtin.diagnostics)
 
 			vim.keymap.set("n", "gr", builtin.lsp_references)
 			vim.keymap.set("n", "gd", builtin.lsp_definitions)
 			vim.keymap.set("n", "gf", builtin.lsp_document_symbols)
 
-			vim.keymap.set("n", "<leader>gs", builtin.git_status)
+			vim.keymap.set("n", "<leader>gs", function()
+				local current_open_file = vim.api.nvim_buf_get_name(0)
+				local git_root = vim.fs.find({ ".git/.." }, {
+					upward = true,
+					type = "directory",
+					path = current_open_file,
+				})[1]
+				builtin.git_status({
+					cwd = git_root,
+				})
+			end)
 
 			vim.keymap.set("n", "<leader>h", builtin.command_history)
 			vim.keymap.set("n", "<leader>ss", builtin.spell_suggest)
