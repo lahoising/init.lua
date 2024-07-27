@@ -23,6 +23,14 @@ return {
 				end,
 			})
 
+      lspconfig['gdscript'].setup({
+        capabilities = capabilities,
+        on_attach = function(client, bufnr)
+          local pipe = '/tmp/godot.pipe'
+          vim.api.nvim_command('echo serverstart("' .. pipe .. '")')
+        end,
+      })
+
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(event)
 					local opts = { buffer = event.buf }
