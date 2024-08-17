@@ -23,11 +23,12 @@ return {
 				end,
 			})
 
-      lspconfig['gdscript'].setup({
+      lspconfig["gdscript"].setup({
         capabilities = capabilities,
         on_attach = function(client, bufnr)
-          local pipe = '/tmp/godot.pipe'
+          local pipe = "/tmp/godot.pipe"
           vim.api.nvim_command('echo serverstart("' .. pipe .. '")')
+          vim.opt.expandtab = false
         end,
       })
 

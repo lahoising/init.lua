@@ -129,7 +129,7 @@ return {
           else
             format = function()
               if vim.g.full_file_formatting_fallback then
-                vim.cmd("Format")
+                vim.cmd("FormatWrite")
               else
                 print("Not doing range based formatting, because the LSP does not support it")
               end
@@ -138,7 +138,7 @@ return {
           vim.keymap.set("n", "<leader>ff", format, { buffer = bufnr })
           vim.keymap.set("n", "<leader>fa", "<Cmd>Format<CR>", { buffer = bufnr })
 
-          vim.api.nvim_create_autocmd({ "BufWrite" }, {
+          vim.api.nvim_create_autocmd({ "BufWritePost" }, {
             callback = function(write_event)
               if write_event.buf == bufnr and vim.g.format_on_save then
                 format()
