@@ -10,6 +10,7 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.shiftwidth = 2
 vim.opt.termguicolors = true
+vim.opt.fixeol = false
 
 vim.keymap.set("n", "<Space>", "<Nop>")
 vim.g.mapleader = " "
