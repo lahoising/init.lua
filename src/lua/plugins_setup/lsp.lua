@@ -23,14 +23,14 @@ return {
 				end,
 			})
 
-      lspconfig["gdscript"].setup({
-        capabilities = capabilities,
-        on_attach = function(client, bufnr)
-          local pipe = "/tmp/godot.pipe"
-          vim.api.nvim_command('echo serverstart("' .. pipe .. '")')
-          vim.opt.expandtab = false
-        end,
-      })
+			lspconfig["gdscript"].setup({
+				capabilities = capabilities,
+				on_attach = function(client, bufnr)
+					local pipe = "/tmp/godot.pipe"
+					vim.api.nvim_command('echo serverstart("' .. pipe .. '")')
+					vim.opt.expandtab = false
+				end,
+			})
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(event)
@@ -57,15 +57,54 @@ return {
 			if mason_registry.is_installed(jdtls_server_name) then
 				local jdtls_package = mason_registry.get_package(jdtls_server_name)
 				local jdtls_path = vim.fs.find("jdtls", { path = jdtls_package:get_install_path() })
+				local home = os.getenv("HOME")
+				local jvm_args = "--jvm-arg=-javaagent:" .. home .. "/bin/lombok.jar"
 
 				vim.api.nvim_create_autocmd("FileType", {
 					callback = function(event)
 						local bufnr = event.buf
 						if vim.bo[bufnr].filetype == "java" then
 							local root_dir = jdtls_setup.find_root({ "gradlew", ".git", "mvnw", "build.xml" })
+
+							vim.opt.tabstop = 4
+							vim.opt.softtabstop = 4
+							vim.opt.shiftwidth = 4
+
+							local eclipse_workspace = home
+								.. "/.local/share/eclipse/"
+								.. vim.fn.fnamemodify(root_dir, ":p:h:t")
+
+							local jdtls_cmd = {
+								jdtls_path[1],
+								jvm_args,
+								"-data",
+								eclipse_workspace,
+							}
+
+							local settings = {
+								java = {
+									completion = {
+										enabled = true,
+										importOrder = {
+											"",
+											"javax",
+											"java",
+											"import static",
+										},
+									},
+									sources = {
+										organizeImports = {
+											starThreshold = 999,
+											staticStarThreshold = 999,
+										},
+									},
+								},
+							}
+
 							jdtls.start_or_attach({
-								cmd = jdtls_path,
+								cmd = jdtls_cmd,
 								root_dir = root_dir,
+								settings = settings,
 							})
 						end
 					end,
