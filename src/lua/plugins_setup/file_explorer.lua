@@ -17,6 +17,9 @@ return {
 						quit_on_open = true,
 					},
 				},
+				view = {
+					adaptive_size = true,
+				},
 			})
 
 			vim.keymap.set("n", "<leader>e", "<Cmd>NvimTreeToggle<CR>", {})
