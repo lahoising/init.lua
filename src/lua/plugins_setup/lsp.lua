@@ -41,7 +41,6 @@ return {
     dependencies = {
       deps.mason,
       deps.mason_lspconfig,
-      deps.cmp,
       deps.cmp_nvim_lsp
     },
     config = M.config,
