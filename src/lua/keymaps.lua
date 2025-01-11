@@ -27,8 +27,22 @@ function M.setup_fuzzy_finder_keymaps()
   vim.keymap.set("n", "<leader>/h", telescope_builtin.command_history, { desc = "Telescope command history" })
   vim.keymap.set("n", "<leader>/s", telescope_builtin.spell_suggest, { desc = "Telescope spell suggest" })
 
-  -- TODO: add git status keymap
-  -- vim.keymap.set("n", "<leader>/f", telescope_builtin.lsp_document_symbols, { desc = "Telescope find files" })
+  vim.keymap.set("n", "<leader>gs", M.get_git_status_fn({ telescope_builtin = telescope_builtin }), { desc = "Telescope git status" })
+end
+
+function M.get_git_status_fn(deps)
+  return function()
+    local current_open_file = vim.api.nvim_buf_get_name(0)
+    local git_root = vim.fs.find({ ".git/..", }, {
+      updward = true,
+      type = "directory",
+      path = current_open_file,
+    })[1]
+
+    deps.telescope_builtin.git_status({
+      cwd = git_root,
+    })
+  end
 end
 
 function M.setup_git_keymaps()
