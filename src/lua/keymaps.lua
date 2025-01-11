@@ -3,6 +3,7 @@ local M = {}
 function M.setup_all_keymaps()
   M.setup_file_explorer_keymaps()
   M.setup_fuzzy_finder_keymaps()
+  M.setup_lsp_on_attach()
 end
 
 function M.setup_file_explorer_keymaps()
@@ -26,6 +27,37 @@ function M.setup_fuzzy_finder_keymaps()
 
   -- TODO: add git status keymap
   -- vim.keymap.set("n", "<leader>/f", telescope_builtin.lsp_document_symbols, { desc = "Telescope find files" })
+end
+
+function M.setup_lsp_on_attach()
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = M.on_lsp_attach,
+  })
+end
+
+function M.on_lsp_attach(event)
+  local opts = { buffer = event.buf }
+  local merge_behavior = "force"
+
+  vim.keymap.set("n",
+    "K",
+    vim.lsp.buf.hover,
+    vim.tbl_deep_extend(merge_behavior, opts, { desc = "LSP display hover info" }))
+
+  vim.keymap.set("n",
+    "<leader>ca",
+    vim.lsp.buf.code_action,
+    vim.tbl_deep_extend(merge_behavior, opts, { desc = "LSP code action" }))
+
+  vim.keymap.set("n",
+    "<leader>r",
+    vim.lsp.buf.rename,
+    vim.tbl_deep_extend(merge_behavior, opts, { desc = "LSP rename" }))
+
+  vim.keymap.set("n",
+    "<leader>ge",
+    vim.diagnostic.open_float,
+    vim.tbl_deep_extend(merge_behavior, opts, { desc = "LSP open float" }))
 end
 
 M.setup_all_keymaps()
