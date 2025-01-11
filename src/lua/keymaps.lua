@@ -3,6 +3,7 @@ local M = {}
 function M.setup_all_keymaps()
   M.setup_file_explorer_keymaps()
   M.setup_fuzzy_finder_keymaps()
+  M.setup_git_keymaps()
   M.setup_lsp_on_attach()
 end
 
@@ -27,6 +28,13 @@ function M.setup_fuzzy_finder_keymaps()
 
   -- TODO: add git status keymap
   -- vim.keymap.set("n", "<leader>/f", telescope_builtin.lsp_document_symbols, { desc = "Telescope find files" })
+end
+
+function M.setup_git_keymaps()
+  vim.keymap.set("n", "<leader>gn", vim.cmd.GitGutterNextHunk, { desc = "Git go to next hunk" })
+  vim.keymap.set("n", "<leader>gp", vim.cmd.GitGutterPrevHunk, { desc = "Git go to previous hunk" })
+  vim.keymap.set("n", "<leader>gu", vim.cmd.GitGutterUndoHunk, { desc = "Git undo hunk" })
+  vim.keymap.set("n", "<leader>gd", vim.cmd.GitGutterPreviewHunk, { desc = "Git view hunk diff" })
 end
 
 function M.setup_lsp_on_attach()
