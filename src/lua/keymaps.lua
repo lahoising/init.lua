@@ -4,6 +4,7 @@ function M.setup_all_keymaps()
   M.setup_file_explorer_keymaps()
   M.setup_fuzzy_finder_keymaps()
   M.setup_git_keymaps()
+  M.setup_diagnostics_navigation_keymaps()
   M.setup_lsp_on_attach()
 end
 
@@ -35,6 +36,23 @@ function M.setup_git_keymaps()
   vim.keymap.set("n", "<leader>gp", vim.cmd.GitGutterPrevHunk, { desc = "Git go to previous hunk" })
   vim.keymap.set("n", "<leader>gu", vim.cmd.GitGutterUndoHunk, { desc = "Git undo hunk" })
   vim.keymap.set("n", "<leader>gd", vim.cmd.GitGutterPreviewHunk, { desc = "Git view hunk diff" })
+end
+
+function M.setup_diagnostics_navigation_keymaps()
+  local diagnostic_goto_opts = {
+    severity = { min = vim.diagnostic.severity.ERROR },
+  }
+
+  local goto_next_error = function()
+    vim.diagnostic.goto_next(diagnostic_goto_opts)
+  end
+
+  local goto_prev_error = function()
+    vim.diagnostic.goto_prev(diagnostic_goto_opts)
+  end
+
+  vim.keymap.set("n", "<leader>]", goto_next_error, { desc = "Diagnostic go to next" })
+  vim.keymap.set("n", "<leader>[", goto_prev_error, { desc = "Diagnostic go to previous" })
 end
 
 function M.setup_lsp_on_attach()
