@@ -46,10 +46,15 @@ function M.get_git_status_fn(deps)
 end
 
 function M.setup_git_keymaps()
-  vim.keymap.set("n", "<leader>gn", vim.cmd.GitGutterNextHunk, { desc = "Git go to next hunk" })
-  vim.keymap.set("n", "<leader>gp", vim.cmd.GitGutterPrevHunk, { desc = "Git go to previous hunk" })
-  vim.keymap.set("n", "<leader>gu", vim.cmd.GitGutterUndoHunk, { desc = "Git undo hunk" })
-  vim.keymap.set("n", "<leader>gd", vim.cmd.GitGutterPreviewHunk, { desc = "Git view hunk diff" })
+  local gitsigns = require("gitsigns")
+  local goto_next_hunk = function() gitsigns.nav_hunk('next') end
+  local goto_prev_hunk = function() gitsigns.nav_hunk('prev') end
+
+  vim.keymap.set("n", "<leader>gn", goto_next_hunk, { desc = "Git go to next hunk" })
+  vim.keymap.set("n", "<leader>gp", goto_prev_hunk, { desc = "Git go to previous hunk" })
+  vim.keymap.set("n", "<leader>gu", gitsigns.reset_hunk, { desc = "Git undo hunk" })
+  vim.keymap.set("n", "<leader>gd", gitsigns.preview_hunk, { desc = "Git view hunk diff" })
+  vim.keymap.set("n", "<leader>gb", gitsigns.toggle_current_line_blame, { desc = "Git view hunk diff" })
 end
 
 function M.setup_diagnostics_navigation_keymaps()
