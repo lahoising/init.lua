@@ -16,7 +16,7 @@ function M.format_modifications(bufnr)
   end
 
   local hunks = gitsigns.get_hunks(bufnr)
-  if hunks == nil then return end
+  if hunks == nil then return false end
 
   local ranges = M._build_hunk_ranges(hunks)
   return M._format_ranges(bufnr, ranges)
