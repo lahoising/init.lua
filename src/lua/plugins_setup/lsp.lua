@@ -76,6 +76,7 @@ function M.jdtls_handler()
             "",
             "javax",
             "java",
+            "#",
           },
         },
         sources = {

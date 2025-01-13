@@ -1,3 +1,5 @@
+local jdtls = require("jdtls")
+
 local M = {}
 
 function M.setup_all_keymaps()
@@ -28,7 +30,8 @@ function M.setup_fuzzy_finder_keymaps()
   vim.keymap.set("n", "<leader>/h", telescope_builtin.command_history, { desc = "Telescope command history" })
   vim.keymap.set("n", "<leader>/s", telescope_builtin.spell_suggest, { desc = "Telescope spell suggest" })
 
-  vim.keymap.set("n", "<leader>gs", M.get_git_status_fn({ telescope_builtin = telescope_builtin }), { desc = "Telescope git status" })
+  vim.keymap.set("n", "<leader>gs", M.get_git_status_fn({ telescope_builtin = telescope_builtin }),
+    { desc = "Telescope git status" })
 end
 
 function M.get_git_status_fn(deps)
@@ -112,6 +115,21 @@ function M.on_lsp_attach(event)
     "<leader>ge",
     vim.diagnostic.open_float,
     vim.tbl_deep_extend(merge_behavior, opts, { desc = "LSP open float" }))
+
+  local client = vim.lsp.get_client_by_id(event.data.client_id)
+  if client.name == "jdtls" then
+    M.on_jdtls_lsp_attach(event)
+  end
+end
+
+function M.on_jdtls_lsp_attach(event)
+  local opts = { buffer = event.buf }
+  local merge_behavior = "force"
+
+  vim.keymap.set("n",
+    "<leader>fi",
+    jdtls.organize_imports,
+    vim.tbl_deep_extend(merge_behavior, opts, { desc = "JDTLS fix imports" }))
 end
 
 M.setup_all_keymaps()
