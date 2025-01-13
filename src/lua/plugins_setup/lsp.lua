@@ -111,12 +111,21 @@ function M.jdtls_handler()
   function JM.on_java_filetype(event)
     local bufnr = event.buf
 
+    M.set_buffer_opts(bufnr)
+
     local fname = vim.api.nvim_buf_get_name(bufnr)
     local root_dir = JM.default_config.root_dir(fname)
 
     local config = vim.tbl_deep_extend("force", JM.config, { root_dir = root_dir })
     config = M.process_jdtls_lsp_config(config)
     JM.jdtls.start_or_attach(config)
+  end
+
+  function M.set_buffer_opts(bufnr)
+    local buffer = vim.bo[bufnr]
+    buffer.tabstop = 4
+    buffer.softtabstop = 4
+    buffer.shiftwidth = 4
   end
 
   JM.setup()
