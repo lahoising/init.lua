@@ -4,6 +4,7 @@ local M = {}
 
 function M.config()
   M.require()
+  M.install_mods()
   M.setup_constants()
   M.setup_handlers()
 end
@@ -12,6 +13,20 @@ function M.require()
   M.lspconfig = require("lspconfig")
   M.mason_lspconfig = require("mason-lspconfig")
   M.cmp_nvim_lsp = require("cmp_nvim_lsp")
+end
+
+function M.install_mods()
+  local default_config_processor = function(default_config)
+    return default_config
+  end
+
+  M.process_lsp_config = default_config_processor
+  M.process_jdtls_lsp_config = default_config_processor
+
+  local mod_exists, mod = pcall(require, "mods.lsp")
+  if not mod_exists then return end
+  M.process_lsp_config = mod.process_lsp_config or default_config_processor
+  M.process_jdtls_lsp_config = mod.process_jdtls_lsp_config or default_config_processor
 end
 
 function M.setup_constants()
@@ -26,9 +41,10 @@ function M.setup_handlers()
 end
 
 function M.default_handler(server_name)
-  M.lspconfig[server_name].setup({
+  local config = M.process_lsp_config({
     capabilities = M.capabilities,
   })
+  M.lspconfig[server_name].setup(config)
 end
 
 function M.jdtls_handler()
@@ -99,7 +115,7 @@ function M.jdtls_handler()
     local root_dir = JM.default_config.root_dir(fname)
 
     local config = vim.tbl_deep_extend("force", JM.config, { root_dir = root_dir })
-
+    config = M.process_jdtls_lsp_config(config)
     JM.jdtls.start_or_attach(config)
   end
 
