@@ -38,6 +38,7 @@ end
 return {
   {
     "neovim/nvim-lspconfig",
+    name = deps.lspconfig,
     dependencies = {
       deps.mason,
       deps.mason_lspconfig,

@@ -5,6 +5,7 @@ function M.setup_all_keymaps()
   M.setup_fuzzy_finder_keymaps()
   M.setup_git_keymaps()
   M.setup_diagnostics_navigation_keymaps()
+  M.setup_formatter_keymaps()
   M.setup_lsp_on_attach()
 end
 
@@ -72,6 +73,14 @@ function M.setup_diagnostics_navigation_keymaps()
 
   vim.keymap.set("n", "<leader>]", goto_next_error, { desc = "Diagnostic go to next" })
   vim.keymap.set("n", "<leader>[", goto_prev_error, { desc = "Diagnostic go to previous" })
+end
+
+function M.setup_formatter_keymaps()
+  local conform = require("conform")
+  local format_modifications = require("format-modifications").format_modifications
+
+  vim.keymap.set("n", "<leader>fa", conform.format, { desc = "Format current file" })
+  vim.keymap.set("n", "<leader>ff", format_modifications, { desc = "Format modifications on current file" })
 end
 
 function M.setup_lsp_on_attach()
