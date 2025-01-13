@@ -15,5 +15,5 @@ M.plenary = "nvim-lua/plenary.nvim"
 M.mason = "mason"
 M.mason_lspconfig = "mason-lspconfig"
 M.lsp_format_modifications = "joechrisellis/lsp-format-modifications.nvim"
-
+M.jdtls = "mfussenegger/nvim-jdtls"
 return M
