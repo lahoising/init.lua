@@ -24,7 +24,12 @@ end
 
 function M.setup_autocmds()
   vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-    callback = M.format_modifications,
+    callback = function(event)
+      local bufnr = event.buf
+      if not M.format_modifications(bufnr) then
+        M.conform.format({ bufnr = bufnr })
+      end
+    end,
   })
 end
 
