@@ -16,17 +16,14 @@ function M.require()
 end
 
 function M.install_mods()
-  local default_config_processor = function(default_config)
-    return default_config
-  end
-
-  M.process_lsp_config = default_config_processor
-  M.process_jdtls_lsp_config = default_config_processor
+  M.process_lsp_config = function(_, default_config) return default_config end
+  M.process_jdtls_lsp_config = function(default_config) return default_config end
 
   local mod_exists, mod = pcall(require, "mods.lsp")
   if not mod_exists then return end
-  M.process_lsp_config = mod.process_lsp_config or default_config_processor
-  M.process_jdtls_lsp_config = mod.process_jdtls_lsp_config or default_config_processor
+
+  M.process_lsp_config = mod.process_lsp_config or M.process_lsp_config
+  M.process_jdtls_lsp_config = mod.process_jdtls_lsp_config or M.process_jdtls_lsp_config
 end
 
 function M.setup_constants()
@@ -41,7 +38,7 @@ function M.setup_handlers()
 end
 
 function M.default_handler(server_name)
-  local config = M.process_lsp_config({
+  local config = M.process_lsp_config(server_name, {
     capabilities = M.capabilities,
   })
   M.lspconfig[server_name].setup(config)
