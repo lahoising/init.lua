@@ -81,9 +81,11 @@ end
 function M.setup_formatter_keymaps()
   local conform = require("conform")
   local format_modifications = require("format-modifications").format_modifications
+  local format_modifications_on_current_buffer = function() format_modifications(0) end
 
-  vim.keymap.set("n", "<leader>fa", conform.format, { desc = "Format current file" })
-  vim.keymap.set("n", "<leader>ff", format_modifications, { desc = "Format modifications on current file" })
+  vim.keymap.set("n", "<leader>fa", conform.format, { desc = "Format current buffer" })
+  vim.keymap.set("n", "<leader>ff", format_modifications_on_current_buffer,
+    { desc = "Format modifications on current buffer" })
 end
 
 function M.setup_lsp_on_attach()
