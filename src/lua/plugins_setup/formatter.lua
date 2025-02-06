@@ -15,7 +15,9 @@ end
 
 function M.setup_formatters()
   M.conform.setup({
-    formatters_by_ft = {},
+    formatters_by_ft = {
+      gdscript = { "gdformat", },
+    },
     default_format_opts = {
       lsp_format = "fallback",
     },
