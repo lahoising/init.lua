@@ -41,7 +41,7 @@ function M.on_gdscript_lsp_attach(event)
   local bufnr = event.buf
   local buffer = vim.bo[bufnr]
 
-  buffer.expandtab = true
+  buffer.expandtab = false
 end
 
 M.setup()
