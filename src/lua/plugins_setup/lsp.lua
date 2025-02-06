@@ -35,6 +35,8 @@ function M.setup_handlers()
     M.default_handler,
     ["jdtls"] = M.jdtls_handler,
   })
+
+  M.setup_additional_lsps()
 end
 
 function M.default_handler(server_name)
@@ -127,6 +129,16 @@ function M.jdtls_handler()
   end
 
   JM.setup()
+end
+
+function M.setup_additional_lsps()
+  local additional_lsp_names = {
+    "gdscript",
+  }
+
+  for _, server_name in ipairs(additional_lsp_names) do
+    M.default_handler(server_name)
+  end
 end
 
 return {
