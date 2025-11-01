@@ -13,7 +13,7 @@ function M.generate_opts()
       ["<C-j>"] = M.cmp.mapping.select_next_item(),
       ["<C-k>"] = M.cmp.mapping.select_prev_item(),
       ["<C-Spce>"] = M.cmp.mapping.complete(),
-      ["<CR>"] = M.cmp.mapping.confirm({ select = true }),
+      ["<C-o>"] = M.cmp.mapping.confirm({ select = true }),
     }),
     sources = M.cmp.config.sources({
       { name = "nvim_lsp" },

@@ -10,7 +10,6 @@ function M.config()
 end
 
 function M.require()
-  M.lspconfig = require("lspconfig")
   M.mason_lspconfig = require("mason-lspconfig")
   M.cmp_nvim_lsp = require("cmp_nvim_lsp")
 end
@@ -31,19 +30,21 @@ function M.setup_constants()
 end
 
 function M.setup_handlers()
-  M.mason_lspconfig.setup_handlers({
-    M.default_handler,
-    ["jdtls"] = M.jdtls_handler,
+  vim.lsp.config('*', {
+    capabilities = M.capabilities,
   })
+
+  for i, server_name in ipairs(M.mason_lspconfig.get_installed_servers()) do
+    M.default_handler(server_name)
+  end
 
   M.setup_additional_lsps()
 end
 
 function M.default_handler(server_name)
-  local config = M.process_lsp_config(server_name, {
-    capabilities = M.capabilities,
-  })
-  M.lspconfig[server_name].setup(config)
+  local config = M.process_lsp_config(server_name, {})
+  vim.lsp.config(server_name, config)
+  vim.lsp.enable(server_name)
 end
 
 function M.jdtls_handler()
@@ -52,18 +53,20 @@ function M.jdtls_handler()
   function JM.setup()
     JM.require()
     JM.load_constants()
-    if not JM.mason_registry.is_installed("jdtls") then return end
     JM.load_base_config()
     JM.setup_jdtls()
   end
 
   function JM.require()
     JM.jdtls = require("jdtls")
-    JM.mason_registry = require("mason-registry")
   end
 
   function JM.load_constants()
-    JM.default_config = M.lspconfig.jdtls.config_def.default_config
+    JM.default_config = {
+      name = "jdtls",
+      cmd = { "jdtls" },
+      root_dir = vim.fs.root(0, { 'gradlew', '.git', 'mvnw', 'build.xml' }),
+    }
   end
 
   function JM.load_base_config()
@@ -113,11 +116,7 @@ function M.jdtls_handler()
 
     M.set_buffer_opts(bufnr)
 
-    local fname = vim.api.nvim_buf_get_name(bufnr)
-    local root_dir = JM.default_config.root_dir(fname)
-
-    local config = vim.tbl_deep_extend("force", JM.config, { root_dir = root_dir })
-    config = M.process_jdtls_lsp_config(config)
+    local config = M.process_jdtls_lsp_config(JM.config)
     JM.jdtls.start_or_attach(config)
   end
 
@@ -134,10 +133,18 @@ end
 function M.setup_additional_lsps()
   local additional_lsp_names = {
     "gdscript",
+    "kotlin_language_server",
+    "rust_analyzer",
+    "jdtls",
+    "lua_ls",
   }
 
   for _, server_name in ipairs(additional_lsp_names) do
-    M.default_handler(server_name)
+    if server_name == "jdtls" then
+      M.jdtls_handler()
+    else
+      M.default_handler(server_name)
+    end
   end
 end
 
