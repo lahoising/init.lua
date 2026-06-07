@@ -11,7 +11,6 @@ return {
     dependencies = {
       deps.telescope_fzf_native,
       deps.plenary,
-      deps.tree_sitter,
     },
     opts = {
       defaults = {

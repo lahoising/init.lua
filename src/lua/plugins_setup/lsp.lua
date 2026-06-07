@@ -45,6 +45,7 @@ function M.setup_additional_lsps()
     rust_analyzer = default_handler,
     jdtls = lsp_jdtls.setup,
     lua_ls = default_handler,
+    solargraph = default_handler,
   }
 
   for server_name, lsp_handler in pairs(additional_lsps) do
